@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import { CanLoad, Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
+import { UserData } from './user-data';
+@Injectable({
+  providedIn: 'root'
+})
+export class CheckTutorial implements CanLoad {
+  constructor(private storage: Storage, private router: Router,
+    private userData: UserData,) {}
+
+  canLoad() {
+    return this.storage.get('ion_did_tutorial').then(res => {
+      if (res) {
+        this.userData.isLoggedIn().then(loggedIn => {
+          if(loggedIn){
+            this.router.navigate(['/app', 'tabs', 'map']);
+          }else{
+            this.router.navigate(['/login']);   
+          }
+        });
+        return false;
+      } else {
+        return true;
+      }
+    });
+  }
+}
