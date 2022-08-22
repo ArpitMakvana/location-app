@@ -99,6 +99,23 @@ export class SessionDetailPage {
 
   }
   submitComment(){
-    console.log(this.inputComment);
+    if(this.inputComment.legth <5){
+      this.utils.presentToast('Please enter valid comment');
+      return false;
+    }
+    let data={
+      client_id:this.jobDetails.client_id,
+      staff_id:this.jobDetails.staff_id,
+      project_id:this.jobDetails.project_id,
+      work_desc:this.inputComment,
+      work_date: new Date()
+    }
+    this.restApi.postRequest(data,'/addwork').subscribe(res=>{
+      if(res.status){
+        this.displayAddComment=false;
+        this.getWorkComment(this.jobDetails.project_id);
+      }
+      this.utils.presentToast(res.message);
+    })
   }
 }
