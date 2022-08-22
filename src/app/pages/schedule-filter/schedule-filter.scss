@@ -18,6 +18,23 @@
   background: inherit;
 }
 
+ion-toolbar{
+  --color:#000 !important;
+  font-size: 14px !important;
+  ion-title{
+    font-size: 14px !important;
+  }
+}
+ion-menu-button{
+  --color: #000 !important;
+}
+ion-button{
+  font-size: 15;
+  text-transform: capitalize;
+  --background: #fff;
+  --color: #000;
+}
+
 
 /*
  * iOS

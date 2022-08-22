@@ -31,8 +31,9 @@ export class LoginPage {
       this.restApi.postRequest({'user_id':this.login.username,user_pass:this.login.password,device_token:''},'/login').subscribe(res=>{
         console.log(res);
         if(res.status){
-          this.userData.login(this.login.username);
-          this.router.navigateByUrl('/app/tabs/schedule');
+          this.userData.login(res.response).then(()=>{
+            this.router.navigateByUrl('/app/tabs/map');
+          });
         }else{
           this.utils.presentToast(res.message);
         }

@@ -4,33 +4,64 @@
       <ion-back-button [defaultHref]="defaultHref"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="toggleFavorite()">
-        <ion-icon *ngIf="!isFavorite" slot="icon-only" name="star-outline"></ion-icon>
-        <ion-icon *ngIf="isFavorite" slot="icon-only" name="star"></ion-icon>
+      <ion-button (click)="addComment()">
+        <ion-icon name="pricetags"></ion-icon>
       </ion-button>
-      <ion-button (click)="shareSession()">
-        <ion-icon slot="icon-only" name="share"></ion-icon>
+      <ion-button (click)="markAsComplete()">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="session" class="ion-padding">
-    <h1>{{session.name}}</h1>
-    <span *ngFor="let track of session?.tracks" [class]="'session-track-'+track.toLowerCase()">{{track}}</span>
-    <p>{{session.description}}</p>
+  <div *ngIf="jobDetails" class="ion-padding">
+    <h1>{{jobDetails.project_no}}</h1>
+    <!-- <span *ngFor="let track of session?.tracks" [class]="'session-track-'+track.toLowerCase()">{{track}}</span> -->
+    <div [innerHTML]="jobDetails.project_desc"></div>
     <ion-text color="medium">
-      {{session.timeStart}} &ndash; {{session.timeEnd}}
-      <br /> {{session.location}}
+      {{jobDetails.assign_date | date:'medium'}} &ndash; {{jobDetails.project_status}}
+      <br /> {{jobDetails.staff_add}}
     </ion-text>
   </div>
 
-  <ion-list>
-    <ion-item (click)="sessionClick('watch')" button>
-      <ion-label color="primary">Watch</ion-label>
+  <div *ngIf="allComments.length && !displayAddComment" class="comments">
+    <h3 class="title">Comments</h3>
+    <div class="comment" *ngFor="let comment of allComments">
+      <ion-item detail="false" lines="none" class="speaker-item" >
+        <ion-avatar slot="start">
+          <img src="https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png" >
+        </ion-avatar>
+        <ion-label>
+          <h2 style="font-size: 14px;">{{comment.staff_name}}</h2>
+          <p>{{comment.staff_email}}</p>
+        </ion-label>
+      </ion-item>
+      <div class="comment-description">
+        <div class="comment-inner" [innerHTML]="comment.work_desc"></div>
+        <div class="date-inner">{{comment.work_date| date:'medium'}}</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="add-comment" *ngIf="displayAddComment">
+    <h3>Add comment</h3>
+    <ion-item>
+      <ion-textarea [(ngModel)]="inputComment" rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
     </ion-item>
-    <ion-item (click)="sessionClick('add to calendar')" button>
+    <div class="submit-button">
+      <ion-button (click)="submitComment()">Submit</ion-button>
+    </div>
+  </div>
+
+  <ion-list>
+    <ion-item *ngIf="!displayAddComment"(click)="addComment()" button>
+      <ion-label color="primary">Add daily comment</ion-label>
+    </ion-item>
+    <ion-item (click)="markAsComplete()" button>
+      <ion-label color="primary">Mark as complete</ion-label>
+    </ion-item>
+    <!-- <ion-item (click)="sessionClick('add to calendar')" button>
       <ion-label color="primary">Add to Calendar</ion-label>
     </ion-item>
     <ion-item (click)="sessionClick('mark as unwatched')" button>
@@ -42,6 +73,6 @@
     </ion-item>
     <ion-item (click)="sessionClick('leave feedback')" button>
       <ion-label color="primary">Leave Feedback</ion-label>
-    </ion-item>
+    </ion-item> -->
   </ion-list>
 </ion-content>

@@ -44,3 +44,64 @@ ion-col:not(:last-of-type) .speaker-card {
 
   padding: 0;
 }
+
+ion-toolbar {
+  --color: #000 !important;
+}
+
+ion-menu-button {
+  --color: #000 !important;
+}
+
+
+.job-card {
+  // --background: url('https://cdn.dribbble.com/userupload/2743023/file/original-94f053496371ff8b12a24c4c2fa9c7f3.png?resize=400x0');
+  // --background: #ab99bd;
+  --background: linear-gradient(to right, #6a3093, #a044ff);
+  color: #fff;
+
+  ion-card-content {
+    background: transparent;
+
+    ion-list {
+      --background: transparent;
+      background: transparent;
+
+      .item-details-rigth {
+        text-align: right;
+        width: 50%;
+        font-size: 16px;
+        font-weight: 600;
+        color: #cddc39;
+      }
+      .item-details-left {
+        text-align: left;
+        width: 100%;
+        font-size: 12px;
+        font-weight: 500;
+        
+      }
+      .jon-no{
+        text-align:center;
+        color: #000;
+      }
+      .job-detail{
+        padding: 8px 20px;
+        h3{
+          // color: #000;
+        }
+        .details{
+          // color: #0000009c;
+        }
+      }
+
+      ion-item {
+        --color: #fff;
+        --background: transparent;
+        .text-white{
+          --color: #fff !important;
+        }
+      }
+    }
+  }
+}

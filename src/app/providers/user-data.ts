@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,8 @@ export class UserData {
   HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
 
   constructor(
-    public storage: Storage
+    public storage: Storage,
+    private router:Router
   ) { }
 
   hasFavorite(sessionName: string): boolean {
@@ -31,8 +32,9 @@ export class UserData {
 
   login(userData): Promise<any> {
     return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUserData(userData);
-      return window.dispatchEvent(new CustomEvent('user:login'));
+      this.setUserData(userData).then(res=>{
+        return window.dispatchEvent(new CustomEvent('user:login'));
+      });
     });
   }
 
@@ -45,7 +47,10 @@ export class UserData {
 
   logout(): Promise<any> {
     return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
-      return this.storage.remove('UserData');
+      
+      return this.storage.remove('userData').then(()=>{
+        this.router.navigate(['/login'])
+      });
     }).then(() => {
       window.dispatchEvent(new CustomEvent('user:logout'));
     });
@@ -56,7 +61,7 @@ export class UserData {
   }
 
   getUserData(): Promise<string> {
-    return this.storage.get('UserData').then((value) => {
+    return this.storage.get('userData').then((value) => {
       return value;
     });
   }

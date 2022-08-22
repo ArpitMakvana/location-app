@@ -79,7 +79,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 
     showLoader() {
         this.loaderToShow = this.loadingController.create({
-            message: 'Processing Server Request'
+            message: 'Processing Server Request',
+            duration: 2000,
         }).then((res) => {
             res.present();
 

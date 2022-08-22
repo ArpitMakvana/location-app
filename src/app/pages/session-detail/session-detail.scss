@@ -84,3 +84,53 @@
 h1 {
   margin: 0;
 }
+
+.comments {
+  .title{
+
+  }
+  background: #f3f3f3;
+  padding: 10px;
+
+  .comment {
+    background: #fff;
+    margin: 5px 0px;
+    border-radius: 10px;
+    padding: 5px;
+
+    .comment-description {
+      .comment-inner {
+        background: #7e7a7a;
+        padding: 4px;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 1;
+        margin: 10px 0px;
+
+        p {
+          font-size: 14px;
+        }
+      }
+
+      .date-inner {
+        text-align: right;
+        font-size: 11px;
+        font-weight: 500;
+      }
+    }
+  }
+}
+.add-comment{
+  background: #0000001f;
+  padding: 10px;
+  h3{
+    font-size: 18px;
+    font-weight: 600;
+  }
+  ion-item{
+    border-radius: 10px;
+  }
+  ion-button{
+    width: 100%;
+  }
+}

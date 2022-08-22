@@ -11,6 +11,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { HttpConfigInterceptor } from './interceptor/httpConfig.interceptor';
+// import { SafePipe } from './pipes/safe.pipe';
 
 
 @NgModule({
