@@ -1,4 +1,4 @@
-# Ionic Angular Conference Application
+<!-- # Ionic Angular Conference Application
 
 This application is purely a kitchen-sink demo of the Ionic Framework and Angular.
 
@@ -70,7 +70,7 @@ See [CONTRIBUTING.md](https://github.com/ionic-team/ionic-conference-app/blob/ma
 | Material Design  | iOS  |
 | -----------------| -----|
 | ![Android About](/resources/screenshots/android-about.png) | ![iOS About](/resources/screenshots/ios-about.png) |
-
+ -->
 
 ## Deploying
 
@@ -87,3 +87,7 @@ See [CONTRIBUTING.md](https://github.com/ionic-team/ionic-conference-app/blob/ma
 ### iOS
 
 1. Run `ionic cordova run ios --prod`
+
+
+
+<!-- https://github.com/ArpitMakvana/location-app.git -->
