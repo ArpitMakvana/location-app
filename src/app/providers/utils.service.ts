@@ -1,7 +1,7 @@
 
 import { ToastController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ export class UtilsService {
   loaderToShow: any;
 
   constructor(public loadingController: LoadingController,
-              public toastController: ToastController) { }
+              public toastController: ToastController,public alertController: AlertController) { }
 
 
     async presentToast(msg) {
@@ -39,5 +39,38 @@ export class UtilsService {
       setTimeout(()=>{ 
           this.loadingController.dismiss();
       },500)
+  }
+  async presentAlertConfirm(message,callBack:any) {
+    const alert = await this.alertController.create({
+      header: 'Confirm!',
+      message: message,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+            callBack(false);
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            callBack( true);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+  async presentAlert(message) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

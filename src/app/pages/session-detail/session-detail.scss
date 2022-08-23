@@ -97,6 +97,10 @@ h1 {
     margin: 5px 0px;
     border-radius: 10px;
     padding: 5px;
+    ion-icon{
+      float: right;
+      font-size: 25px;  
+    }
 
     .comment-description {
       .comment-inner {
@@ -129,9 +133,14 @@ h1 {
     font-weight: 600;
   }
   ion-item{
-    border-radius: 10px;
+    border-radius: 10px;    
+    margin: 10px 0px;
   }
   ion-button{
     width: 100%;
   }
+}
+ion-segment-button{
+  --color: #fff;
+    font-weight: 700;
 }

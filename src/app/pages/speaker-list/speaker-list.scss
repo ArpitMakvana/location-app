@@ -56,9 +56,12 @@ ion-menu-button {
 
 .job-card {
   // --background: url('https://cdn.dribbble.com/userupload/2743023/file/original-94f053496371ff8b12a24c4c2fa9c7f3.png?resize=400x0');
-  // --background: #ab99bd;
-  --background: linear-gradient(to right, #6a3093, #a044ff);
+  // --background:#8e54e9;
+  // --background: linear-gradient(to right, #7f00ff, #e100ff);
+  // --background: linear-gradient(to right, #4776e6, #8e54e9);
+  --background: #8e54e9;
   color: #fff;
+  font-weight: 600;
 
   ion-card-content {
     background: transparent;
@@ -72,7 +75,7 @@ ion-menu-button {
         width: 50%;
         font-size: 16px;
         font-weight: 600;
-        color: #cddc39;
+        color: #000;
       }
       .item-details-left {
         text-align: left;
@@ -89,9 +92,15 @@ ion-menu-button {
         padding: 8px 20px;
         h3{
           // color: #000;
+          font-weight: 600;
+          font-size: 14px;
         }
         .details{
           // color: #0000009c;
+          font-size: 12px !important;
+          p{
+            font-size: 12px;
+          }
         }
       }
 

@@ -27,7 +27,8 @@
 
   <div *ngIf="allComments.length && !displayAddComment" class="comments">
     <h3 class="title">Comments</h3>
-    <div class="comment" *ngFor="let comment of allComments">
+    <div class="comment" *ngFor="let comment of allComments; let i=index;">
+      <ion-icon name="create" (click)="editComment(comment,i)"></ion-icon>
       <ion-item detail="false" lines="none" class="speaker-item" >
         <ion-avatar slot="start">
           <img src="https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png" >
@@ -37,9 +38,21 @@
           <p>{{comment.staff_email}}</p>
         </ion-label>
       </ion-item>
-      <div class="comment-description">
+      <div class="comment-description" *ngIf="!comment.candisplay">
         <div class="comment-inner" [innerHTML]="comment.work_desc"></div>
         <div class="date-inner">{{comment.work_date| date:'medium'}}</div>
+      </div>
+      <div class="add-comment" *ngIf="comment.candisplay">
+        <h3>Update comment</h3>
+        <ion-item>
+          <ion-textarea [(ngModel)]="commentEditDetails.work_desc" rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-datetime [(ngModel)]="commentEditDetails.work_date" displayFormat="MM DD YY" placeholder="Select Date"></ion-datetime>
+        </ion-item>
+        <div class="submit-button">
+          <ion-button (click)="updateComment()">Update</ion-button>
+        </div>
       </div>
     </div>
   </div>
@@ -48,6 +61,9 @@
     <h3>Add comment</h3>
     <ion-item>
       <ion-textarea [(ngModel)]="inputComment" rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-datetime [(ngModel)]="inputDate" displayFormat="MM DD YY" placeholder="Select Date"></ion-datetime>
     </ion-item>
     <div class="submit-button">
       <ion-button (click)="submitComment()">Submit</ion-button>

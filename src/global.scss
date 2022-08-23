@@ -41,3 +41,10 @@
 .swiper-slide {
   display: block;
 }
+
+ion-segment{
+  ion-segment-button{
+    --color:#fff;
+    font-weight: 700;
+  }
+}

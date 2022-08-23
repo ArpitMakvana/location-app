@@ -15,10 +15,13 @@ export class SessionDetailPage {
   session: any;
   isFavorite = false;
   defaultHref = '';
-  jobDetails:any={};
+  public jobDetails:any={};
   allComments:Array<any>=[];
   displayAddComment:boolean=false;
   inputComment:any='';
+  inputDate:any;
+  commentEditDetails:any={};
+  editCommendesplay:boolean=false;
   constructor(
     private dataProvider: ConferenceData,
     private userProvider: UserData,
@@ -88,7 +91,6 @@ export class SessionDetailPage {
         // this.utils.presentToast(res.message);
       }
     })
-
   }
 
   addComment(){
@@ -96,11 +98,24 @@ export class SessionDetailPage {
   }
 
   markAsComplete(){
+    this.utils.presentAlertConfirm('Want to complete this task',res=>{
+      if(res){
+        let data={
+          client_id:this.jobDetails.client_id,
+          staff_id:this.jobDetails.staff_id,
+          project_id:this.jobDetails.project_id,
 
+        }
+        this.restApi.postRequest(data,'/complete').subscribe(res=>{
+          this.utils.presentAlert(res.message);
+        })
+      }
+    })
   }
   submitComment(){
-    if(this.inputComment.legth <5){
-      this.utils.presentToast('Please enter valid comment');
+    console.log(this.inputComment,this.inputDate);
+    if(this.inputComment.length <5 || !this.inputDate){
+      this.utils.presentAlert('Please enter valid comment and date');
       return false;
     }
     let data={
@@ -108,14 +123,42 @@ export class SessionDetailPage {
       staff_id:this.jobDetails.staff_id,
       project_id:this.jobDetails.project_id,
       work_desc:this.inputComment,
-      work_date: new Date()
+      work_date: this.inputDate
     }
     this.restApi.postRequest(data,'/addwork').subscribe(res=>{
       if(res.status){
         this.displayAddComment=false;
         this.getWorkComment(this.jobDetails.project_id);
       }
-      this.utils.presentToast(res.message);
+      this.utils.presentAlert(res.message);
     })
+  }
+  editComment(comment,i){
+    console.log(i,this.allComments);
+    this.commentEditDetails=comment;
+    this.commentEditDetails.work_date= new Date(this.commentEditDetails.work_date).toISOString();
+    console.log(this.commentEditDetails.work_date);
+    (this.allComments[i].candisplay)? this.allComments[i].candisplay=false : this.allComments[i].candisplay=true;
+    this.editCommendesplay= !this.editCommendesplay;
+  }
+  updateComment(){
+    let data={
+      id:this.commentEditDetails.work_id,
+      work_desc:this.commentEditDetails.work_desc,
+      work_date: this.commentEditDetails.work_date
+    }
+    if(this.commentEditDetails.work_desc.length <5 || !this.commentEditDetails.work_date){
+      this.utils.presentAlert('Please enter valid comment and date');
+      return false;
+    }
+    this.restApi.postRequest(data,'/updatework').subscribe(res=>{
+      if(res.status){
+        this.editCommendesplay=false;
+        this.commentEditDetails={};
+        this.getWorkComment(this.jobDetails.project_id);
+      }
+      this.utils.presentAlert(res.message);
+    })
+
   }
 }
