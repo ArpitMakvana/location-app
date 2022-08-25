@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 
 import { MenuController } from '@ionic/angular';
 
-import { Storage } from '@ionic/storage';
-import Swiper from 'swiper';
+import { Storage } from '@ionic/storage-angular';
+// import Swiper from 'swiper';
 
 @Component({
   selector: 'page-tutorial',
@@ -13,7 +13,7 @@ import Swiper from 'swiper';
 })
 export class TutorialPage {
   showSkip = true;
-  private slides: Swiper;
+  // private slides: Swiper;
 
   constructor(
     public menu: MenuController,
@@ -28,12 +28,12 @@ export class TutorialPage {
       .then(() => this.storage.set('ion_did_tutorial', true));
   }
 
-  setSwiperInstance(swiper: Swiper) {
-    this.slides = swiper;
+  setSwiperInstance(swiper) {
+    // this.slides = swiper;
   }
 
   onSlideChangeStart() {
-    this.showSkip = !this.slides.isEnd;
+    // this.showSkip = !this.slides.isEnd;
     this.cd.detectChanges();
   }
 

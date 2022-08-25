@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { SwiperModule } from 'swiper/angular';
+// import { SwiperModule } from 'swiper/angular';
 
 import { TutorialPage } from './tutorial';
 import { TutorialPageRoutingModule } from './tutorial-routing.module';
@@ -11,7 +11,7 @@ import { TutorialPageRoutingModule } from './tutorial-routing.module';
     CommonModule,
     IonicModule,
     TutorialPageRoutingModule,
-    SwiperModule
+    // SwiperModule
   ],
   declarations: [TutorialPage],
   entryComponents: [TutorialPage],

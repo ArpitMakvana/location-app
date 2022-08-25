@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConferenceData } from '../../providers/conference-data';
 import { ActionSheetController } from '@ionic/angular';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+// import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'page-speaker-detail',
@@ -17,7 +17,7 @@ export class SpeakerDetailPage {
     private route: ActivatedRoute,
     public actionSheetCtrl: ActionSheetController,
     public confData: ConferenceData,
-    public inAppBrowser: InAppBrowser,
+    // public inAppBrowser: InAppBrowser,
   ) {}
 
   ionViewWillEnter() {
@@ -35,10 +35,10 @@ export class SpeakerDetailPage {
   }
 
   openExternalUrl(url: string) {
-    this.inAppBrowser.create(
-      url,
-      '_blank'
-    );
+    // this.inAppBrowser.create(
+    //   url,
+    //   '_blank'
+    // );
   }
 
   async openSpeakerShare(speaker: any) {
