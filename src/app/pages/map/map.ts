@@ -27,7 +27,7 @@ export class MapPage implements AfterViewInit {
     }
 
     const googleMaps = await getGoogleMaps(
-      'YOUR_API_KEY_HERE'
+      'AIzaSyDzOIBzV6f6QsAdrMpHlV4M78QoM9KMS9A'
     );
 
     let map;
@@ -37,9 +37,21 @@ export class MapPage implements AfterViewInit {
 
       map = new googleMaps.Map(mapEle, {
         center: mapData.find((d: any) => d.center),
-        zoom: 16,
+        zoom: 20,
         styles: style
       });
+
+      var antennasCircle = new googleMaps.Circle({
+        strokeColor: "#FF0000",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#FF0000",
+        fillOpacity: 0.35,
+        map: map,
+        center: mapData.find((d: any) => d.center),
+        radius: 10 
+      });
+      map.fitBounds(antennasCircle.getBounds());
 
       mapData.forEach((markerData: any) => {
         const infoWindow = new googleMaps.InfoWindow({
@@ -78,8 +90,19 @@ export class MapPage implements AfterViewInit {
     observer.observe(appEl, {
       attributes: true
     });
+
+    console.log('points Are',this.arePointsNear({"name": "My Work Place ","lat": 22.9676,"lng": 76.0534,"center": true}, {"name": "My Work Place ","lat": 22.7133,"lng": 75.8761,"center": true}, 1))
+  }
+  arePointsNear(checkPoint, centerPoint, km) { 
+    var ky = 40000 / 360;
+    var kx = Math.cos(Math.PI * centerPoint.lat / 180.0) * ky;
+    var dx = Math.abs(centerPoint.lng - checkPoint.lng) * kx;
+    var dy = Math.abs(centerPoint.lat - checkPoint.lat) * ky;
+    return Math.sqrt(dx * dx + dy * dy) <= km;
   }
 }
+
+ 
 
 function getGoogleMaps(apiKey: string): Promise<any> {
   const win = window as any;
@@ -91,6 +114,7 @@ function getGoogleMaps(apiKey: string): Promise<any> {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=3.31`;
+    // https://maps.googleapis.com/maps/api/js?key=AIzaSyDzOIBzV6f6QsAdrMpHlV4M78QoM9KMS9A&libraries=places
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);

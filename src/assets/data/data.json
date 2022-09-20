@@ -405,22 +405,14 @@
 
   "map": [
     {
-      "name": "Monona Terrace Convention Center",
-      "lat": 43.071584,
-      "lng": -89.38012,
+      "name": "My Work Place ",
+      "lat": 22.7133,
+      "lng": 75.8761,
       "center": true
-    },
-    {
-      "name": "Ionic HQ",
-      "lat": 43.074395,
-      "lng": -89.381056
-    },
-    {
-      "name": "Afterparty - Brocach Irish Pub",
-      "lat": 43.07336,
-      "lng": -89.38335
     }
+   
   ],
+  
 
   "tracks": [
     {
