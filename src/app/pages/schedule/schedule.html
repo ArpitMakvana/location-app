@@ -1,19 +1,20 @@
 <ion-header >
-  <ion-toolbar>
+  <ion-toolbar style="--color:#fff !important;">
     <ion-buttons *ngIf="!showSearchbar" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-segment *ngIf="ios" [(ngModel)]="segment" (ionChange)="updateSchedule()">
+    <ion-title style="--color:#fff !important;" size="large">Attendance</ion-title>
+    <!-- <ion-segment *ngIf="ios" [(ngModel)]="segment" (ionChange)="updateSchedule()">
       <ion-segment-button value="all">
         All
       </ion-segment-button>
       <ion-segment-button value="favorites">
         Marked
       </ion-segment-button>
-    </ion-segment>
+    </ion-segment> -->
     <ion-title *ngIf="!ios && !showSearchbar">Attendance</ion-title>
     <ion-searchbar *ngIf="showSearchbar" showCancelButton="always" [(ngModel)]="queryText" (ionChange)="updateSchedule()" (ionCancel)="showSearchbar = false" placeholder="Search"></ion-searchbar>
-    <ion-buttons slot="end">
+    <!-- <ion-buttons slot="end">
       <ion-button *ngIf="!ios && !showSearchbar" (click)="showSearchbar = true">
         <ion-icon slot="icon-only" name="search"></ion-icon>
       </ion-button>
@@ -23,9 +24,9 @@
           <ion-icon slot="icon-only" name="options"></ion-icon>
         </span>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
-  <ion-toolbar *ngIf="!ios">
+  <!-- <ion-toolbar *ngIf="!ios">
     <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
       <ion-segment-button value="all">
         All
@@ -34,7 +35,7 @@
         Favorites
       </ion-segment-button>
     </ion-segment>
-  </ion-toolbar>
+  </ion-toolbar> -->
 </ion-header>
 
 <ion-content fullscreen="true">
@@ -42,26 +43,27 @@
     <ion-toolbar>
       <ion-title size="large">Attendance</ion-title>
     </ion-toolbar>
-    <ion-toolbar>
+    <!-- <ion-toolbar>
       <ion-searchbar [(ngModel)]="queryText" (ionChange)="updateSchedule()" placeholder="Search"></ion-searchbar>
-    </ion-toolbar>
+    </ion-toolbar> -->
   </ion-header>
 
   <ion-list #scheduleList [hidden]="shownSessions === 0">
-    <ion-item-group *ngFor="let group of groups" [hidden]="group.hide">
+    <ion-item-group *ngFor="let group of attendance" [hidden]="group.hide">
       <ion-item-divider sticky>
         <ion-label>
-          {{group.time}}
+          {{group.date | date:'EEEE, MMMM d, y'}}
         </ion-label>
       </ion-item-divider>
 
-      <ion-item-sliding *ngFor="let session of group.sessions" #slidingItem [attr.track]="session.tracks[0] | lowercase"
+      <ion-item-sliding *ngFor="let session of group.data" #slidingItem [attr.track]="session.mark | lowercase"
         [hidden]="session.hide">
-        <ion-item routerLink="/app/tabs/schedule/session/{{session.id}}">
+        <ion-item >
           <ion-label>
-            <h3>{{session.name}}</h3>
-            <p>
-              {{session.timeStart}} &mdash; {{session.timeEnd}}: {{session.location}}
+            <h3>{{session.attend_sts}}</h3>
+            <p >
+              {{session.checkin_time}} {{session.checkout_time}}
+              <!-- &mdash; {{session.timeEnd}}: {{session.location}} -->
             </p>
           </ion-label>
         </ion-item>

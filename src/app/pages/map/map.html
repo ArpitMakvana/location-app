@@ -10,3 +10,7 @@
 <ion-content>
   <div #mapCanvas class="map-canvas"></div>
 </ion-content>
+<ion-footer>
+  <ion-button *ngIf="!currentStatus" (click)="checkIn()" expand="full" color="success">Check-In</ion-button>
+  <ion-button *ngIf="currentStatus" (click)="checkOut()" expand="full" color="danger">Check-Out</ion-button>
+</ion-footer>

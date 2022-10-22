@@ -2,6 +2,11 @@ import { Component, ElementRef, Inject, ViewChild, AfterViewInit } from '@angula
 import { ConferenceData } from '../../providers/conference-data';
 import { Platform } from '@ionic/angular';
 import { DOCUMENT} from '@angular/common';
+import { Router } from '@angular/router';
+
+import { UserData } from '../../providers/user-data';
+import { RestService } from '../../providers/rest.service';
+import { UtilsService } from '../../providers/utils.service';
 
 import { darkStyle } from './map-dark-style';
 
@@ -12,11 +17,30 @@ import { darkStyle } from './map-dark-style';
 })
 export class MapPage implements AfterViewInit {
   @ViewChild('mapCanvas', { static: true }) mapElement: ElementRef;
-
+  currentStatus:any;
+  useData:any;
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     public confData: ConferenceData,
-    public platform: Platform) {}
+    public platform: Platform,
+    public router: Router,
+    public userData: UserData,
+    private utils:UtilsService,
+    public restApi:RestService) {
+      this.userData.getUserData().then((userData) => {
+        this.useData=JSON.parse(userData);
+        console.log(this.useData);
+        this.getCurrentStatus(this.useData.staff_id)
+      });
+    }
+
+  ionViewWillEnter(){
+    this.userData.getUserData().then((userData) => {
+      this.useData=JSON.parse(userData);
+      console.log(this.useData);
+      this.getCurrentStatus(this.useData.staff_id)
+    });
+  }
 
   async ngAfterViewInit() {
     const appEl = this.doc.querySelector('ion-app');
@@ -92,6 +116,48 @@ export class MapPage implements AfterViewInit {
     });
 
     console.log('points Are',this.arePointsNear({"name": "My Work Place ","lat": 22.9676,"lng": 76.0534,"center": true}, {"name": "My Work Place ","lat": 22.7133,"lng": 75.8761,"center": true}, 1))
+  }
+
+  getCurrentStatus(data){
+    this.restApi.postRequest({staff_id:data},'/checkattend').subscribe(res=>{
+      console.log('res',res);
+      this.currentStatus=res.status;
+      this.utils.presentToast(res.message);
+    })
+  }
+  checkIn(){
+    let data = {
+      client_id:this.useData.client_id,
+      staff_id:this.useData.staff_id,
+      attend_long:1232.32,
+      attend_lat:445655.36,
+      status:'Check In'
+    }
+    this.restApi.postRequest(data,'/staffattend').subscribe(res=>{
+      console.log('res',res);
+      if(res.status){
+        this.currentStatus=true;
+      }
+      // this.currentStatus=res.status;
+      this.utils.presentToast(res.message);
+    })
+  }
+  checkOut(){
+    let data = {
+      client_id:this.useData.client_id,
+      staff_id:this.useData.staff_id,
+      attend_long:'1232.32',
+      attend_lat:'445655.36',
+      status:'Check Out'
+    }
+    this.restApi.postRequest(data,'/staffattend').subscribe(res=>{
+      console.log('res',res);
+      // this.currentStatus=res.status;
+      if(res.status){
+        this.currentStatus=false;
+      }
+      this.utils.presentToast(res.message);
+    })
   }
   arePointsNear(checkPoint, centerPoint, km) { 
     var ky = 40000 / 360;
