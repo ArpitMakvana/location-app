@@ -19,6 +19,7 @@ export class MapPage implements AfterViewInit {
   @ViewChild('mapCanvas', { static: true }) mapElement: ElementRef;
   currentStatus:any;
   useData:any;
+  currentLatLong:any={};
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     public confData: ConferenceData,
@@ -29,7 +30,6 @@ export class MapPage implements AfterViewInit {
     public restApi:RestService) {
       this.userData.getUserData().then((userData) => {
         this.useData=JSON.parse(userData);
-        console.log(this.useData);
         this.getCurrentStatus(this.useData.staff_id)
       });
     }
@@ -37,7 +37,6 @@ export class MapPage implements AfterViewInit {
   ionViewWillEnter(){
     this.userData.getUserData().then((userData) => {
       this.useData=JSON.parse(userData);
-      console.log(this.useData);
       this.getCurrentStatus(this.useData.staff_id)
     });
   }
@@ -51,12 +50,18 @@ export class MapPage implements AfterViewInit {
     }
 
     const googleMaps = await getGoogleMaps(
-      'APIKEY'
+      'AIzaSyBrGOSBC-6VBk6pwBBokD9g9dPtH6CzSCI'
     );
+    this.currentLatLong= await getChords();
+
+    console.log('chordas',this.currentLatLong)
 
     let map;
 
     this.confData.getMap().subscribe((mapData: any) => {
+      mapData[0].lat=this.currentLatLong.lat;
+      mapData[0].lng=this.currentLatLong.lng;
+      console.log('mapData',mapData,mapData.find((d: any) => d.center));
       const mapEle = this.mapElement.nativeElement;
 
       map = new googleMaps.Map(mapEle, {
@@ -120,7 +125,6 @@ export class MapPage implements AfterViewInit {
 
   getCurrentStatus(data){
     this.restApi.postRequest({staff_id:data},'/checkattend').subscribe(res=>{
-      console.log('res',res);
       this.currentStatus=res.status;
       this.utils.presentToast(res.message);
     })
@@ -129,12 +133,11 @@ export class MapPage implements AfterViewInit {
     let data = {
       client_id:this.useData.client_id,
       staff_id:this.useData.staff_id,
-      attend_long:1232.32,
-      attend_lat:445655.36,
+      attend_long:this.currentLatLong.lng,
+      attend_lat:this.currentLatLong.lat,
       status:'Check In'
     }
     this.restApi.postRequest(data,'/staffattend').subscribe(res=>{
-      console.log('res',res);
       if(res.status){
         this.currentStatus=true;
       }
@@ -146,12 +149,11 @@ export class MapPage implements AfterViewInit {
     let data = {
       client_id:this.useData.client_id,
       staff_id:this.useData.staff_id,
-      attend_long:'1232.32',
-      attend_lat:'445655.36',
+      attend_long:this.currentLatLong.lng,
+      attend_lat:this.currentLatLong.lat,
       status:'Check Out'
     }
     this.restApi.postRequest(data,'/staffattend').subscribe(res=>{
-      console.log('res',res);
       // this.currentStatus=res.status;
       if(res.status){
         this.currentStatus=false;
@@ -192,5 +194,36 @@ function getGoogleMaps(apiKey: string): Promise<any> {
       }
     };
   });
+}
+
+function getChords (): Promise<any>{
+  return new Promise((resolve,reject)=>{
+    if ( navigator.geolocation ) {
+      navigator.geolocation.getCurrentPosition(showPosition, showError);
+  }
+    function showError(e){
+      alert(e)
+      reject(e);
+    }
+
+    function showPosition(position){
+      var lat = position.coords.latitude;
+        var lng =  position.coords.longitude;
+        resolve({lat,lng})
+    }
+  })
+  
+
+  // var showPosition=function( position ) {
+  //     var lat = position.coords.latitude;
+  //     var long =  position.coords.longitude;
+  //     console.log('curentLat -long0',lat,long)
+  //     // var latlng=new google.maps.LatLng(lat,long);
+
+  //     // var map = new google.maps.Map( document.getElementById('map'), {
+  //     //     center: latlng,
+  //     //     zoom: 12
+  //     // });
+  // }
 }
 

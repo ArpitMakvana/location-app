@@ -19,12 +19,12 @@ export class AppComponent implements OnInit {
       icon: 'calendar'
     },
     {
-      title: 'My Task',
+      title: 'Assignments',
       url: '/app/tabs/speakers',
-      icon: 'people'
+      icon: 'list'
     },
     {
-      title: 'Location',
+      title: 'Check-in/Check-out',
       url: '/app/tabs/map',
       icon: 'map'
     },
@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
   ];
   loggedIn = false;
   dark = false;
+  useData:any={};
 
   constructor(
     private menu: MenuController,
@@ -65,6 +66,10 @@ export class AppComponent implements OnInit {
 
   checkLoginStatus() {
     return this.userData.isLoggedIn().then(loggedIn => {
+      this.userData.getUserData().then((userData) => {
+        this.useData=JSON.parse(userData);
+        console.log(this.useData);
+      });
       return this.updateLoggedInStatus(loggedIn);
     });
   }
