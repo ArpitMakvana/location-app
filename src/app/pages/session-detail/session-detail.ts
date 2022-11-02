@@ -23,6 +23,7 @@ export class SessionDetailPage {
   inputDate:any;
   commentEditDetails:any={};
   editCommendesplay:boolean=false;
+  isCheckedIn;
   constructor(
     private dataProvider: ConferenceData,
     private userProvider: UserData,
@@ -39,6 +40,10 @@ export class SessionDetailPage {
       console.log(res);
       this.jobDetails=res;
       this.getWorkComment(res.project_id);
+      this.userProvider.getCheckinStatus().then(status=>{
+        this.isCheckedIn=status;
+        console.log(status);
+      })
     })
     // this.dataProvider.load().subscribe((data: any) => {
     //   if (data && data.schedule && data.schedule[0] && data.schedule[0].groups) {

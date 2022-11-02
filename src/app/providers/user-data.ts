@@ -77,4 +77,12 @@ export class UserData {
       return value;
     });
   }
+  setCheckinStatus(status){
+    this.storage.set('LoginStatus', status);
+  }
+  getCheckinStatus():Promise<any>{
+    return this.storage.get('LoginStatus').then((value)=>{
+      return value;
+    })
+  }
 }

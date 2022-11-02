@@ -68,6 +68,7 @@ export class UtilsService {
     const alert = await this.alertController.create({
       header: 'Alert',
       message: message,
+      backdropDismiss:true,
       buttons: ['OK']
     });
 

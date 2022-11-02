@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="defaultHref"></ion-back-button>
     </ion-buttons>
-    <ion-buttons *ngIf="jobDetails?.project_status !=='Completed'" slot="end">
+    <ion-buttons *ngIf="jobDetails?.project_status !=='Completed' && isCheckedIn" slot="end">
       <ion-button (click)="addComment()">
         <ion-icon name="pricetags"></ion-icon>
       </ion-button>
@@ -71,7 +71,7 @@
     </div>
   </div>
 
-  <ion-list *ngIf="jobDetails?.project_status !=='Completed'">
+  <ion-list *ngIf="jobDetails?.project_status !=='Completed' && isCheckedIn">
     <ion-item *ngIf="!displayAddComment"(click)="addComment()" button>
       <ion-label color="primary">Add daily comment</ion-label>
     </ion-item>

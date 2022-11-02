@@ -127,6 +127,7 @@ export class MapPage implements AfterViewInit {
   getCurrentStatus(data) {
     this.restApi.postRequest({ staff_id: data }, '/checkattend').subscribe(res => {
       this.currentStatus = res.status;
+      this.userData.setCheckinStatus(this.currentStatus);
       this.utils.presentToast(res.message);
     })
   }
@@ -141,6 +142,7 @@ export class MapPage implements AfterViewInit {
     this.restApi.postRequest(data, '/staffattend').subscribe(res => {
       if (res.status) {
         this.currentStatus = true;
+        this.userData.setCheckinStatus(this.currentStatus);
       }
       // this.currentStatus=res.status;
       this.utils.presentToast(res.message);
@@ -158,6 +160,7 @@ export class MapPage implements AfterViewInit {
       // this.currentStatus=res.status;
       if (res.status) {
         this.currentStatus = false;
+        this.userData.setCheckinStatus(this.currentStatus);
       }
       this.utils.presentToast(res.message);
     })
