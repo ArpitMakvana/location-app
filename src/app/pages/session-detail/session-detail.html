@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="defaultHref"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <ion-buttons *ngIf="jobDetails?.project_status !=='Completed'" slot="end">
       <ion-button (click)="addComment()">
         <ion-icon name="pricetags"></ion-icon>
       </ion-button>
@@ -17,10 +17,11 @@
 <ion-content>
   <div *ngIf="jobDetails" class="ion-padding">
     <h1>{{jobDetails.project_no}}</h1>
+    <h1 style="font-size: 20px;font-weight: 600;">{{jobDetails.project_category}}</h1>
     <!-- <span *ngFor="let track of session?.tracks" [class]="'session-track-'+track.toLowerCase()">{{track}}</span> -->
     <div [innerHTML]="jobDetails.project_desc"></div>
     <ion-text color="medium">
-      {{jobDetails.assign_date | date:'medium'}} &ndash; {{jobDetails.project_status}}
+      {{jobDetails.assign_date | date:'MMM d, y'}} &ndash; {{jobDetails.project_status}}
       <br /> {{jobDetails.staff_add}}
     </ion-text>
   </div>
@@ -40,16 +41,16 @@
       </ion-item>
       <div class="comment-description" *ngIf="!comment.candisplay">
         <div class="comment-inner" [innerHTML]="comment.work_desc"></div>
-        <div class="date-inner">{{comment.work_date| date:'medium'}}</div>
+        <div class="date-inner">{{comment.work_date| date:'MMM d, y'}}</div>
       </div>
       <div class="add-comment" *ngIf="comment.candisplay">
         <h3>Update comment</h3>
         <ion-item>
           <ion-textarea [(ngModel)]="commentEditDetails.work_desc" rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
         </ion-item>
-        <ion-item>
+        <!-- <ion-item>
           <ion-datetime [(ngModel)]="commentEditDetails.work_date" displayFormat="MM DD YY" placeholder="Select Date"></ion-datetime>
-        </ion-item>
+        </ion-item> -->
         <div class="submit-button">
           <ion-button (click)="updateComment()">Update</ion-button>
         </div>
@@ -62,15 +63,15 @@
     <ion-item>
       <ion-textarea [(ngModel)]="inputComment" rows="6" cols="20" placeholder="Enter any notes here..."></ion-textarea>
     </ion-item>
-    <ion-item>
+    <!-- <ion-item>
       <ion-datetime [(ngModel)]="inputDate" displayFormat="MM DD YY" placeholder="Select Date"></ion-datetime>
-    </ion-item>
+    </ion-item> -->
     <div class="submit-button">
       <ion-button (click)="submitComment()">Submit</ion-button>
     </div>
   </div>
 
-  <ion-list>
+  <ion-list *ngIf="jobDetails?.project_status !=='Completed'">
     <ion-item *ngIf="!displayAddComment"(click)="addComment()" button>
       <ion-label color="primary">Add daily comment</ion-label>
     </ion-item>

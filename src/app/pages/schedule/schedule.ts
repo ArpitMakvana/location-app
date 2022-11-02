@@ -1,10 +1,11 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, IonList, IonRouterOutlet, LoadingController, ModalController, ToastController, Config } from '@ionic/angular';
-
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
+import { RestService } from '../../providers/rest.service';
+import { UtilsService } from '../../providers/utils.service';
 
 @Component({
   selector: 'page-schedule',
@@ -24,6 +25,8 @@ export class SchedulePage implements OnInit {
   groups: any = [];
   confDate: string;
   showSearchbar: boolean;
+  useData: any;
+  attendance: Array<any> = [];
 
   constructor(
     public alertCtrl: AlertController,
@@ -34,13 +37,53 @@ export class SchedulePage implements OnInit {
     public routerOutlet: IonRouterOutlet,
     public toastCtrl: ToastController,
     public user: UserData,
-    public config: Config
+    public config: Config,
+    private utils: UtilsService,
+    public restApi: RestService
   ) { }
 
   ngOnInit() {
     this.updateSchedule();
-
+    
     this.ios = this.config.get('mode') === 'ios';
+  }
+
+  ionViewWillEnter(){
+    this.user.getUserData().then((userData) => {
+      this.useData = JSON.parse(userData);
+      console.log(this.useData);
+      this.getAllAttendance(this.useData.staff_id)
+    });
+  }
+
+  getAllAttendance(id) {
+    this.restApi.getRequest('/attendance/' + id).subscribe(res => {
+      console.log('res', res);
+      if (res.status) {
+        if (res.response?.length) {
+          let grouped = res.response.reduce(function (r, a) {
+            r[a.attend_date] = r[a.attend_date] || [];
+            if(a.attend_sts=="Check In"){
+              a.mark='Checkin'
+            }else{
+              a.mark='Checkout'
+            }
+            r[a.attend_date].push(a);
+            return r;
+          }, Object.create(null));
+          let result=[];
+          Object.keys(grouped).forEach(key=>{
+            result.push({date:key,data:grouped[key]});
+          })
+          console.log('result',result)
+          this.attendance = result || [];
+        }else{
+          this.attendance=[];
+        }
+      } else {
+        this.utils.presentToast(res.message);
+      }
+    })
   }
 
   updateSchedule() {
@@ -52,6 +95,7 @@ export class SchedulePage implements OnInit {
     this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
       this.shownSessions = data.shownSessions;
       this.groups = data.groups;
+      console.log('this.groups', this.groups);
     });
   }
 

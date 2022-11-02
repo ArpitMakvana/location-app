@@ -8,7 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpConfigInterceptor } from './interceptor/httpConfig.interceptor';
 import { IonicStorageModule } from '@ionic/storage-angular';
-
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +22,10 @@ HttpClientModule,
 IonicStorageModule.forRoot(),
 FormsModule,
 ],
-  providers: [{
+  providers: [
+    Geolocation,
+    InAppBrowser,
+    {
     provide: HTTP_INTERCEPTORS,
     useClass: HttpConfigInterceptor,
     multi: true

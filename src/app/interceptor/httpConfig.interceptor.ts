@@ -27,13 +27,13 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 
         const token = localStorage.getItem('token');
 
-        if (token) {
-            request = request.clone({
-                setHeaders: {
-                    'Authorization': token
-                }
-            });
-        }
+        // if (token) {
+        //     request = request.clone({
+        //         setHeaders: {
+        //             'Authorization': token
+        //         }
+        //     });
+        // }
 
         if (!request.headers.has('Content-Type')) {
             request = request.clone({

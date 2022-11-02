@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { UserData } from '../../providers/user-data';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 import { UserOptions } from '../../interfaces/user-options';
 import {RestService} from '../../providers/rest.service'
@@ -21,7 +22,8 @@ export class LoginPage {
     public userData: UserData,
     public router: Router,
     private restApi:RestService,
-    private utils:UtilsService
+    private utils:UtilsService,
+    private iab: InAppBrowser
   ) { }
 
   onLogin(form: NgForm) {
@@ -47,5 +49,16 @@ export class LoginPage {
 
   onSignup() {
     this.router.navigateByUrl('/signup');
+  }
+  openLink(){
+    const browser = this.iab.create('https://dx.ezybilling.in/admin/login',
+    '_self',
+    {
+      location: 'no',
+      clearcache: 'yes',
+      clearsessioncache: 'yes'
+    });
+
+      // browser.close();
   }
 }

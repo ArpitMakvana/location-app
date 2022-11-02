@@ -4,6 +4,7 @@ import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { UserData } from './providers/user-data';
 // import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationEvents, BackgroundGeolocationResponse } from '@awesome-cordova-plugins/background-geolocation/ngx';
+import {LoadingController ,AlertController ,ModalController ,NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +20,12 @@ export class AppComponent implements OnInit {
       icon: 'calendar'
     },
     {
-      title: 'My Task',
+      title: 'Assignments',
       url: '/app/tabs/speakers',
-      icon: 'people'
+      icon: 'list'
     },
     {
-      title: 'Location',
+      title: 'Check-in/Check-out',
       url: '/app/tabs/map',
       icon: 'map'
     },
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
   ];
   loggedIn = false;
   dark = false;
+  useData:any={};
 
   constructor(
     private menu: MenuController,
@@ -44,6 +46,8 @@ export class AppComponent implements OnInit {
     private storage: Storage,
     private userData: UserData,
     private toastCtrl: ToastController,
+    public navCtrl: NavController,
+    public alertController: AlertController,
     // private backgroundGeolocation: BackgroundGeolocation
   ) {
     this.initializeApp();
@@ -56,22 +60,68 @@ export class AppComponent implements OnInit {
   }
 
   initializeApp() {
+    let me=this;
     this.platform.ready().then(async() => {
       
       if (this.platform.is('hybrid')) {
       } 
+      if(this.platform.is('cordova')){
+        this.platform.backButton.subscribe(() => {
+            let view = this.router.url;
+            let baseViews=['/app/tabs/map','/app/tabs/schedule','/app/tabs/speakers','/login'];
+            if(baseViews.indexOf(view)!=-1){
+                // if (new Date().getTime() - this.lastTimeBackPress < this.timePeriodToExit) {
+                // }else{
+                //   this.lastTimeBackPress = new Date().getTime();
+                //   this.util.errorToast(this.util.getTranslate('Press again to exit'));
+                // }
+                me.confirmExitApp();
+            }
+            console.log('this.view',view);
+            this.navCtrl.pop();
+        });
+    }
     });
+  }
+
+  confirmExitApp(){
+    let me=this;
+    this.alertController.create({
+      message     : '<p> Are you sure want to exit from app?</p>',
+      cssClass    : 'my-custom-popup',
+      mode        : 'ios',
+      buttons     : [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Exit',
+          handler: () => {
+            navigator['app'].exitApp();
+          }
+        }
+      ]
+    }).then(alert =>{alert.present();});
   }
 
   checkLoginStatus() {
     return this.userData.isLoggedIn().then(loggedIn => {
-      return this.updateLoggedInStatus(loggedIn);
+      this.userData.getUserData().then((userData) => {
+        this.useData=JSON.parse(userData);
+        console.log(this.useData);
+      });
+      this.loggedIn = loggedIn;
+      // return this.updateLoggedInStatus(loggedIn);
     });
   }
 
   updateLoggedInStatus(loggedIn: boolean) {
     setTimeout(() => {
       this.loggedIn = loggedIn;
+      this.checkLoginStatus();
     }, 300);
   }
 
@@ -86,6 +136,7 @@ export class AppComponent implements OnInit {
 
     window.addEventListener('user:logout', () => {
       this.updateLoggedInStatus(false);
+      this.useData={};
     });
   }
 

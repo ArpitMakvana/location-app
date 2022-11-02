@@ -15,7 +15,7 @@ ion-fab-button {
 }
 
 ion-toolbar{
-  --color:#000 !important;
+  --color:#fffs !important;
 }
 ion-menu-button{
   --color: #000 !important;
@@ -29,6 +29,8 @@ $categories: (
   services: #fd8b2d,
   design: #fed035,
   workshop: #69bb7b,
+  checkin: #69bb7b,
+  checkout: #fe4c52,
   food: #3bc7c4,
   documentation: #b16be3,
   navigation: #6600cc

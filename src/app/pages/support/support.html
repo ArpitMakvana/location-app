@@ -3,17 +3,21 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Support</ion-title>
+    <ion-title>Contact Us</ion-title>
   </ion-toolbar>
 
 </ion-header>
 
 <ion-content>
   <div class="support-logo">
-    <img src="assets/img/appicon.svg" alt="Ionic Logo">
+    <img src="assets/client-logo.png" alt="Ionic Logo">
+  </div>
+  <div class="text">
+    <h3>We are happy to help you :)</h3>
+    <p>Contact us on <a href="tel:+919437934567">(+91) 9437934567</a></p>
   </div>
 
-  <form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
+  <!-- <form #submitForm="ngForm" novalidate (ngSubmit)="submit(submitForm)">
     <ion-list lines="none">
       <ion-item>
         <ion-label position="stacked" color="primary">Enter your support message below</ion-label>
@@ -30,5 +34,5 @@
     <div class="ion-padding">
       <ion-button expand="block" type="submit">Submit</ion-button>
     </div>
-  </form>
+  </form> -->
 </ion-content>

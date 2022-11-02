@@ -3,10 +3,14 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Map</ion-title>
+    <ion-title>Check-in/Check-out</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div #mapCanvas class="map-canvas"></div>
 </ion-content>
+<ion-footer>
+  <ion-button *ngIf="!currentStatus" (click)="checkIn()" expand="block" >Check-In</ion-button>
+  <ion-button *ngIf="currentStatus" (click)="checkOut()" expand="block" style="--color:#000">Check-Out</ion-button>
+</ion-footer>

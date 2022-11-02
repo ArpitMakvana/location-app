@@ -48,6 +48,9 @@ ion-col:not(:last-of-type) .speaker-card {
 ion-toolbar {
   --color: #000 !important;
 }
+ion-title{
+  padding: 0px 50px;
+}
 
 ion-menu-button {
   --color: #000 !important;

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 import { ConferenceData } from '../../providers/conference-data';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserData } from '../../providers/user-data';
 import { RestService } from '../../providers/rest.service';
 import { UtilsService } from '../../providers/utils.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'page-session-detail',
@@ -27,7 +28,8 @@ export class SessionDetailPage {
     private userProvider: UserData,
     private route: ActivatedRoute,
     private utils:UtilsService,
-    public restApi:RestService
+    public restApi:RestService,
+    private _location: Location
   ) { 
     console.log(this.route.snapshot.paramMap.get('sessionId'))
   }
@@ -108,14 +110,15 @@ export class SessionDetailPage {
         }
         this.restApi.postRequest(data,'/complete').subscribe(res=>{
           this.utils.presentAlert(res.message);
+          this._location.back();
         })
       }
     })
   }
   submitComment(){
     console.log(this.inputComment,this.inputDate);
-    if(this.inputComment.length <5 || !this.inputDate){
-      this.utils.presentAlert('Please enter valid comment and date');
+    if(this.inputComment.length <5 ){
+      this.utils.presentAlert('Please enter valid comment.');
       return false;
     }
     let data={
@@ -123,7 +126,7 @@ export class SessionDetailPage {
       staff_id:this.jobDetails.staff_id,
       project_id:this.jobDetails.project_id,
       work_desc:this.inputComment,
-      work_date: this.inputDate
+      // work_date: this.inputDate
     }
     this.restApi.postRequest(data,'/addwork').subscribe(res=>{
       if(res.status){
@@ -144,11 +147,11 @@ export class SessionDetailPage {
   updateComment(){
     let data={
       id:this.commentEditDetails.work_id,
-      work_desc:this.commentEditDetails.work_desc,
-      work_date: this.commentEditDetails.work_date
+      work_desc:this.commentEditDetails.work_desc
+      // work_date: this.commentEditDetails.work_date
     }
-    if(this.commentEditDetails.work_desc.length <5 || !this.commentEditDetails.work_date){
-      this.utils.presentAlert('Please enter valid comment and date');
+    if(this.commentEditDetails.work_desc.length <5 ){
+      this.utils.presentAlert('Please enter valid comment.');
       return false;
     }
     this.restApi.postRequest(data,'/updatework').subscribe(res=>{

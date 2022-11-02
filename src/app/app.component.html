@@ -3,9 +3,12 @@
 
     <ion-menu contentId="main-content">
       <ion-content>
-        <ion-list lines="none">
+        <div style="text-align:center;" class="list-image">
+          <img width="150" src="assets/client-logo.png">
+        </div>
+        <ion-list *ngIf="useData" lines="none">
           <ion-list-header>
-            Conference
+           Welcome {{useData.staff_name}} !  
           </ion-list-header>
           <ion-menu-toggle autoHide="false" *ngFor="let p of appPages; let i = index">
             <ion-item [routerLink]="p.url" routerLinkActive="selected" routerDirection="root" detail="false">
@@ -16,13 +19,6 @@
             </ion-item>
 
           </ion-menu-toggle>
-        </ion-list>
-
-        <ion-list *ngIf="loggedIn" lines="none">
-          <ion-list-header>
-            Account
-          </ion-list-header>
-
           <ion-menu-toggle autoHide="false">
             <ion-item routerLink="/account" routerLinkActive="active" routerDirection="root" detail="false">
               <ion-icon slot="start" name="person"></ion-icon>
@@ -34,9 +30,9 @@
 
           <ion-menu-toggle autoHide="false">
             <ion-item routerLink="/support" routerLinkActive="active" routerDirection="root" detail="false">
-              <ion-icon slot="start" name="help"></ion-icon>
+              <ion-icon slot="start" name="call"></ion-icon>
               <ion-label>
-                Support
+                Contact Us
               </ion-label>
             </ion-item>
           </ion-menu-toggle>
@@ -49,14 +45,15 @@
               </ion-label>
             </ion-item>
           </ion-menu-toggle>
+        </ion-list>
+
+        <ion-list *ngIf="loggedIn" lines="none">
+
+         
 
         </ion-list>
 
-        <ion-list *ngIf="!loggedIn" lines="none">
-          <ion-list-header>
-            Account
-          </ion-list-header>
-
+        <!-- <ion-list *ngIf="!loggedIn" lines="none">
           <ion-menu-toggle autoHide="false">
             <ion-item routerLink="/login" routerLinkActive="active" routerDirection="root" detail="false">
               <ion-icon slot="start" name="log-in"></ion-icon>
@@ -68,18 +65,9 @@
 
           <ion-menu-toggle autoHide="false">
             <ion-item routerLink="/support" routerLinkActive="active" routerDirection="root" detail="false">
-              <ion-icon slot="start" name="help"></ion-icon>
+              <ion-icon slot="start" name="call"></ion-icon>
               <ion-label>
-                Support
-              </ion-label>
-            </ion-item>
-          </ion-menu-toggle>
-
-          <ion-menu-toggle autoHide="false">
-            <ion-item routerLink="/signup" routerLinkActive="active" routerDirection="root" detail="false">
-              <ion-icon slot="start" name="person-add"></ion-icon>
-              <ion-label>
-                Signup
+                Contact Us
               </ion-label>
             </ion-item>
           </ion-menu-toggle>
@@ -91,7 +79,7 @@
             </ion-label>
             <ion-toggle [(ngModel)]="dark"></ion-toggle>
           </ion-item>
-        </ion-list>
+        </ion-list> -->
 
        <!-- <ion-list lines="none">
           <ion-list-header>
@@ -105,6 +93,12 @@
           </ion-menu-toggle>
         </ion-list>-->
       </ion-content>
+      <ion-footer class="info-footer">
+        <p>Powered By</p>
+        <div  class="list-image">
+          <img width="150" src="assets/company-logo.png">
+        </div>
+      </ion-footer>
     </ion-menu>
 
     <ion-router-outlet id="main-content"></ion-router-outlet>

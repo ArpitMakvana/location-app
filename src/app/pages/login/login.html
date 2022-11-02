@@ -1,16 +1,13 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
-    <!-- <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons> -->
-
     <ion-title>Login</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content>
   <div class="login-logo">
     <img src="assets/img/secure-login.jpg" alt="Ionic logo">
+    <h3>Login to your Account</h3>
   </div>
 
   <form #loginForm="ngForm" novalidate>
@@ -42,8 +39,11 @@
     </ion-list>
 
     <ion-row>
-      <ion-col>
+      <ion-col size="12">
         <ion-button (click)="onLogin(loginForm)" type="submit" expand="block">Login</ion-button>
+      </ion-col>
+      <ion-col size="12">
+        <ion-button (click)="openLink()" type="submit" expand="block"> Admin Login</ion-button>
       </ion-col>
       <!-- <ion-col>
         <ion-button (click)="onSignup()" color="light" expand="block">Signup</ion-button>
